@@ -1,84 +1,56 @@
-
-# import pandas as pd
-# import seaborn as sns
-# import matplotlib.pyplot as plt
-# import numpy as np
-
-# # Create plots comparing median distances of files to universe.
-
-# cc_scored_data="/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/scored_stats/cc_scored_data.csv"
-# cc_no_scored_data = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/no_score_stats/cc_no_score_data.csv"
-
-# df_cc_score = pd.read_csv(cc_scored_data)
-# df_cc_no_score = pd.read_csv(cc_no_scored_data)
-
-# #basic histogram
-
-# stat = "median_dist_file_to_universe"
-# #df1_new = df1.assign(Employee_Salary=df2['Salary'])
-
-# # df_cc_score[stat] = pd.to_numeric(df_cc_score[stat], errors='coerce')
-# # df_cc_no_score[stat] = pd.to_numeric(df_cc_no_score[stat], errors='coerce')
-
-# sns.barplot(x='file', y=stat, data=df_cc_score)
-# plt.title('Basic Bar Plot')
-# plt.show()
-
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 
-
+# Define the directory for results
 RESULTS_DIR = "/home/drc/Downloads/uniwig_paper_figs/"
 
-# File paths from your original code
+# File paths for all four data sources
 cc_scored_data = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/scored_stats/cc_scored_data.csv"
 cc_no_scored_data = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/no_score_stats/cc_no_score_data.csv"
 
 ccf_scored_data = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/scored_stats/ccf_scored_data.csv"
 ccf_no_score_data = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/no_score_stats/ccf_no_score_data.csv"
 
-# Read the data from the CSV files
+hmm_scored_data = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/scored_stats/hmm_scored_data.csv"
+hmm_no_score_data = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/no_score_stats/hmm_no_score_data.csv"
+
+# Read the data from all four CSV files
 df_cc_score = pd.read_csv(cc_scored_data)
 df_cc_no_score = pd.read_csv(cc_no_scored_data)
+df_ccf_score = pd.read_csv(ccf_scored_data)
+df_ccf_no_score = pd.read_csv(ccf_no_score_data)
+
+df_hmm_score  = pd.read_csv(hmm_scored_data)
+df_hmm_no_score  = pd.read_csv(hmm_no_score_data)
 
 # Define the column name for the statistic you want to plot
 stat = "median_dist_file_to_universe"
 
-# Add a 'type' column to each DataFrame to differentiate the data source
-df_cc_score['type'] = 'scored'
-df_cc_no_score['type'] = 'no_score'
+# Add a 'data_source' column to each DataFrame to differentiate them
+df_cc_score['data_source'] = 'cc_scored'
+df_cc_no_score['data_source'] = 'cc_no_score'
+df_ccf_score['data_source'] = 'ccf_scored'
+df_ccf_no_score['data_source'] = 'ccf_no_score'
+df_hmm_score['data_source'] = 'hmm_scored'
+df_hmm_no_score['data_source'] = 'hmm_no_score'
 
-# Concatenate the two DataFrames into a single one
-df_combined = pd.concat([df_cc_score, df_cc_no_score])
-print(df_combined)
-# Pivot the table to have 'file' as index and 'type' as columns
-# The values will be the 'median_dist_file_to_universe'
-df_pivoted = df_combined.pivot(index='file', columns='type', values=stat)
-print(df_pivoted)
+# Concatenate all four DataFrames into a single one
+#df_combined = pd.concat([df_cc_score, df_cc_no_score, df_ccf_score, df_ccf_no_score])
+df_combined = pd.concat([df_cc_score, df_ccf_score, df_hmm_score, df_cc_no_score, df_ccf_no_score, df_hmm_no_score])
 
-# Get the scored and no_scored values for plotting
-scored_values = df_pivoted['scored']
-no_scored_values = df_pivoted['no_score']
-files = df_pivoted.index
-
-# Create the stacked bar plot
-plt.figure(figsize=(10, 7))
-bar_width = 0.5
-
-# Plot the 'no_score' bars first, at the bottom of the stack
-plt.bar(files, no_scored_values, color='skyblue', label='No Score', width=bar_width)
-
-# Plot the 'scored' bars on top of the 'no_score' bars
-plt.bar(files, scored_values, bottom=no_scored_values, color='salmon', label='Scored', width=bar_width)
+# Create the grouped bar plot using seaborn
+# The x-axis is 'file', the y-axis is the 'stat', and the hue groups by 'data_source'
+plt.figure(figsize=(12, 8))
+sns.barplot(x='file', y=stat, hue='data_source', data=df_combined, palette='viridis')
 
 # Add titles and labels for clarity
-plt.title(f'Stacked Bar Plot of {stat}', fontsize=16)
+plt.title(f'Grouped Bar Plot of {stat} for All Data Sources', fontsize=16)
 plt.xlabel('File', fontsize=12)
 plt.ylabel(f'{stat}', fontsize=12)
 plt.xticks(rotation=45, ha='right')
-plt.legend(title='Data Type')
+plt.legend(title='Data Source')
 plt.grid(axis='y', linestyle='--')
 plt.tight_layout()
 
