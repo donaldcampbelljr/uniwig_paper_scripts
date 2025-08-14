@@ -64,3 +64,24 @@ for stat in stats:
     output_path = os.path.join(RESULTS_DIR, f'{stat_rename}_comparison.png') # New filename
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     plt.close()
+
+    # Loop through each statistic and create a box plot
+# Loop through each statistic and create a box plot
+for stat in stats:
+    # Create the box plot using seaborn, grouping by data_source
+    plt.figure(figsize=(12, 8))
+    sns.boxplot(x='data_source', y=stat, data=df_combined, palette='viridis')
+
+    # Add titles and labels for clarity
+    plt.title(f'Box Plot of {stat} Grouped by Data Source', fontsize=16)
+    plt.xlabel('Data Source', fontsize=12)
+    plt.ylabel(f'{stat}', fontsize=12)
+    plt.xticks(rotation=45, ha='right')
+    plt.grid(axis='y', linestyle='--')
+    plt.tight_layout()
+
+    # Save the plot
+    stat_rename = stat.replace('/', '_')
+    output_path = os.path.join(RESULTS_DIR, f'{stat_rename}_boxplot_comparison.png')
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    plt.close()
