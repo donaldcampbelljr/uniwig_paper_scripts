@@ -4,7 +4,7 @@ import os
 import seaborn as sns
 
 # Define the directory containing the BED files
-directory_path = "/home/drc/Downloads/GTARS_PAPER/sample_list/CTCF_40/"
+directory_path = "/home/drc/Downloads/random_bed_files_TF_ALL/"
 
 # Define the directory for results
 RESULTS_DIR = "/home/drc/Downloads/uniwig_paper_figs/"
@@ -84,52 +84,52 @@ else:
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     plt.close()
 
-# Check if we collected any data
-if not all_values:
-    print("No data found in any BED files. Check your directory path and file formats.")
-else:
-    # Filter out zero values for both plots as requested
-    non_zero_values = [value for value in all_values if value != 0]
-    total_count = len(non_zero_values)
+# # Check if we collected any data
+# if not all_values:
+#     print("No data found in any BED files. Check your directory path and file formats.")
+# else:
+#     # Filter out zero values for both plots as requested
+#     non_zero_values = [value for value in all_values if value != 0]
+#     total_count = len(non_zero_values)
     
-    # Handle the case where all values are zero
-    if total_count == 0:
-        print("No non-zero data points to plot.")
-    else:
-        # Convert to a pandas Series for plotting
-        data_series = pd.Series(non_zero_values)
+#     # Handle the case where all values are zero
+#     if total_count == 0:
+#         print("No non-zero data points to plot.")
+#     else:
+#         # Convert to a pandas Series for plotting
+#         data_series = pd.Series(non_zero_values)
 
-        # Plot the histogram
-        plt.figure(figsize=(10, 6))
-        data_series.plot(kind='hist', bins=50, edgecolor='black', alpha=0.7, color='skyblue')
+#         # Plot the histogram
+#         plt.figure(figsize=(10, 6))
+#         data_series.plot(kind='hist', bins=50, edgecolor='black', alpha=0.7, color='skyblue')
         
-        plt.title(f'Distribution of Scores (n={total_count})', fontsize=16)
-        plt.xlabel('Score Value (5th Column)', fontsize=12)
-        plt.ylabel('Frequency', fontsize=12)
-        plt.grid(axis='y', linestyle='--', alpha=0.7)
+#         plt.title(f'Distribution of Scores (n={total_count})', fontsize=16)
+#         plt.xlabel('Score Value (5th Column)', fontsize=12)
+#         plt.ylabel('Frequency', fontsize=12)
+#         plt.grid(axis='y', linestyle='--', alpha=0.7)
         
-        mean_value = data_series.mean()
-        plt.axvline(mean_value, color='red', linestyle='dashed', linewidth=2, label=f'Mean: {mean_value:.2f}')
-        plt.legend()
+#         mean_value = data_series.mean()
+#         plt.axvline(mean_value, color='red', linestyle='dashed', linewidth=2, label=f'Mean: {mean_value:.2f}')
+#         plt.legend()
         
-        plt.tight_layout()
-        output_path_hist = os.path.join(RESULTS_DIR, 'histogram_nozero.png')
-        plt.savefig(output_path_hist, dpi=300, bbox_inches='tight')
-        plt.close()
+#         plt.tight_layout()
+#         output_path_hist = os.path.join(RESULTS_DIR, 'histogram_nozero.png')
+#         plt.savefig(output_path_hist, dpi=300, bbox_inches='tight')
+#         plt.close()
 
-        # Plot the violin plot
-        plt.figure(figsize=(8, 6))
-        sns.violinplot(y=non_zero_values, inner="quartile", color='lightblue')
+#         # Plot the violin plot
+#         plt.figure(figsize=(8, 6))
+#         sns.violinplot(y=non_zero_values, inner="quartile", color='lightblue')
 
-        plt.title(f'Distribution of Scores (n={total_count})', fontsize=16)
-        plt.ylabel('Score Value (5th Column)', fontsize=12)
-        plt.xlabel('')
+#         plt.title(f'Distribution of Scores (n={total_count})', fontsize=16)
+#         plt.ylabel('Score Value (5th Column)', fontsize=12)
+#         plt.xlabel('')
         
-        plt.tight_layout()
-        output_path_violin = os.path.join(RESULTS_DIR, 'violin_nozero.png')
-        plt.savefig(output_path_violin, dpi=300, bbox_inches='tight')
-        plt.close()
+#         plt.tight_layout()
+#         output_path_violin = os.path.join(RESULTS_DIR, 'violin_nozero.png')
+#         plt.savefig(output_path_violin, dpi=300, bbox_inches='tight')
+#         plt.close()
         
-        print(f"Total non-zero data points found: {total_count}")
-        print(f"Histogram saved to: {output_path_hist}")
-        print(f"Violin plot saved to: {output_path_violin}")
+#         print(f"Total non-zero data points found: {total_count}")
+#         print(f"Histogram saved to: {output_path_hist}")
+#         print(f"Violin plot saved to: {output_path_violin}")

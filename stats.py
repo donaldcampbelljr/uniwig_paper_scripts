@@ -28,6 +28,10 @@ hmm_scored_data = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/scored_stats/
 hmm_no_score_data = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/no_score_stats/hmm_no_score_data.csv"
 hmm_new_score = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/scored_stats/hmm_NEW_score_data.csv"
 
+ml_scored_data = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/scored_stats/ml_score_data.csv"
+ml_new_score = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/scored_stats/ml_NEW_score_data.csv"
+ml_no_score = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/STATS/no_score_stats/ml_no_score_data.csv"
+
 # Read the data from all four CSV files
 df_cc_score = pd.read_csv(cc_scored_data)
 df_cc_no_score = pd.read_csv(cc_no_scored_data)
@@ -41,24 +45,32 @@ df_hmm_score  = pd.read_csv(hmm_scored_data)
 df_hmm_no_score  = pd.read_csv(hmm_no_score_data)
 df_hmm_new_score = pd.read_csv(hmm_new_score)
 
+df_ml_score = pd.read_csv(ml_scored_data)
+df_ml_no_score  = pd.read_csv(ml_no_score)
+df_ml_new_score = pd.read_csv(ml_new_score)
+
 # Define the column name for the statistic you want to plot
 
 stats = ["median_dist_file_to_universe", 'univers/file', 'file/universe', 'universe&file', 'f10_beta_score']
 
 # Add a 'data_source' column to each DataFrame to differentiate them
-df_cc_score['data_source'] = 'cc_scored'
-df_cc_no_score['data_source'] = 'cc_no_score'
-df_cc_new_score['data_source'] = 'cc_new_score'
+df_cc_score['data_source'] = 'CC_old'
+df_cc_no_score['data_source'] = 'CC_no_score'
+df_cc_new_score['data_source'] = 'CC_new'
 
-df_ccf_score['data_source'] = 'ccf_scored'
-df_ccf_no_score['data_source'] = 'ccf_no_score'
-df_ccf_new_score['data_source'] = 'ccf_new_score'
+df_ccf_score['data_source'] = 'CCF_old'
+df_ccf_no_score['data_source'] = 'CCF_no_score'
+df_ccf_new_score['data_source'] = 'CCF_new'
 
-df_hmm_score['data_source'] = 'hmm_scored'
-df_hmm_no_score['data_source'] = 'hmm_no_score'
-df_hmm_new_score['data_source'] = 'hmm_new_score'
+df_hmm_score['data_source'] = 'HMM_old'
+df_hmm_no_score['data_source'] = 'HMM_no_score'
+df_hmm_new_score['data_source'] = 'HMM_new'
 
-df_combined = pd.concat([df_cc_score, df_cc_new_score, df_ccf_score,df_ccf_new_score, df_hmm_score,df_hmm_new_score, df_cc_no_score, df_ccf_no_score, df_hmm_no_score])
+df_ml_score['data_source'] = 'ML_old'
+df_ml_no_score['data_source'] = 'ML_no_score'
+df_ml_new_score['data_source'] = 'ML_new'
+
+df_combined = pd.concat([df_cc_score, df_cc_new_score, df_cc_no_score, df_ccf_score,df_ccf_new_score,df_ccf_no_score, df_hmm_score,df_hmm_new_score,df_hmm_no_score,df_ml_score,df_ml_new_score,df_ml_no_score])
 
 #df_combined = pd.concat([df_ccf_score, df_ccf_new_score, df_ccf_no_score])
 #df_combined = pd.concat([df_cc_score, df_cc_new_score, df_cc_no_score])
