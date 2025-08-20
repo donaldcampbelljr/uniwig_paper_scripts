@@ -6,6 +6,7 @@ sample_name = "TEST"
 
 
 INPUT_DIRECTORY = "/home/drc/Downloads/GTARS_PAPER/sample_list/nathan_scatlas_macs2_narrowpeaks/"
+CHROM_SIZES = "/home/drc/GITHUB/gtars/gtars/tests/hg38.chrom.sizes"
 
 RESULTS_DIRECTORY = "/home/drc/Downloads/uniwig_pipeline_test/"
 
@@ -47,14 +48,29 @@ pm.start_pipeline()
 gtars_cmd_callable = ngstk.check_command(GTARS_PATH)
 print(f"Can we use gtars? -> {gtars_cmd_callable}")
 
-if gtars_cmd_callable:
-    pass
-
-    # Scored
-
-else:
+if not gtars_cmd_callable:
     pm.stop_pipeline()
     raise Exception
+
+# Scored
+score_output_dir = os.path.join(UNIWIG_OUTPUT, "score")
+if not os.path.exists(score_output_dir):
+    os.makedirs(score_output_dir)
+    print(f"Created directory: {score_output_dir}")
+else:
+    print(f"Directory already exists: {score_output_dir}")
+
+gtars_scored_cmd = f"uniwig -f {INPUT_DIRECTORY} -c {CHROM_SIZES} -m 25 -s 1 -t bed -y bw -p 6 -l {score_output_dir} -o"
+
+# No score
+no_score_output_dir = os.path.join(UNIWIG_OUTPUT, "scored")
+if not os.path.exists(no_score_output_dir):
+    os.makedirs(no_score_output_dir)
+    print(f"Created directory: {no_score_output_dir}")
+else:
+    print(f"Directory already exists: {no_score_output_dir}")
+
+gtars_no_score_cmd = f"uniwig -f {INPUT_DIRECTORY} -c {CHROM_SIZES} -m 25 -s 1 -t bed -y bw -p 6 -l {no_score_output_dir} -o"
 
 
 pm.stop_pipeline()
