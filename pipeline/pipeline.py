@@ -1,17 +1,26 @@
 import os
 import pypiper
+import sys
 
 
-sample_name = "TEST"
+
+#RESULTS_DIRECTORY = "/home/drc/Downloads/test_sorting/pipeline_results/"
+RESULTS_DIRECTORY = sys.argv[1]
+
+sample_name = sys.argv[2]
 
 
-INPUT_DIRECTORY = "/home/drc/Downloads/test_sorting/input/"
-FILE_LIST = "/home/drc/Downloads/test_sorting/input/file_list.txt" # -> needs to be absolute paths to all files used in input directory (for assessment)
-CHROM_SIZES = "/home/drc/GITHUB/gtars/gtars/tests/hg38.chrom.sizes"
+#INPUT_DIRECTORY = "/home/drc/Downloads/test_sorting/input/"
+INPUT_DIRECTORY = sys.argv[3]
 
-RESULTS_DIRECTORY = "/home/drc/Downloads/test_sorting/pipeline_results/"
+#FILE_LIST = "/home/drc/Downloads/test_sorting/input/file_list.txt" # -> needs to be absolute paths to all files used in input directory (for assessment)
+FILE_LIST = sys.argv[4]
 
-GTARS_PATH = "/home/drc/GITHUB/gtars/gtars/target/release/gtars"
+#CHROM_SIZES = "/home/drc/GITHUB/gtars/gtars/tests/hg38.chrom.sizes"
+CHROM_SIZES = sys.argv[5]
+
+#GTARS_PATH = "/home/drc/GITHUB/gtars/gtars/target/release/gtars"
+GTARS_PATH = sys.argv[6]
 
 SCORING = "ALL"
 UNIVERSES = ["cc", "ccf", "hmm", "ml"]

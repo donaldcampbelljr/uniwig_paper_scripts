@@ -1,0 +1,6 @@
+pep_version: 2.1.0
+sample_table: sample_list.csv
+sample_modifiers:
+  append:
+    chrom_sizes: "/home/drc/GITHUB/gtars/gtars/tests/hg38.chrom.sizes"
+    gtars_path : "/home/drc/GITHUB/gtars/gtars/target/release/gtars"
