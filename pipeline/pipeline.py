@@ -172,7 +172,7 @@ for uc in universe_commands:
         print(f"Directory already exists: {output_dir}")
     prefix = f"{uc[3]}_{uc[2]}_{sample_name}"
     target = prefix+"_data.csv"
-    assess_command = f"geniml assess-universe --overlap --distance --universe {uc[1]} --raw-data-folder {INPUT_DIRECTORY} --folder-out {output_dir} --save-to-file --file-list {FILE_LIST} --pref {prefix}"
+    assess_command = f"geniml assess-universe --overlap --distance --distance-universe-to-file --universe {uc[1]} --raw-data-folder {INPUT_DIRECTORY} --folder-out {output_dir} --save-to-file --file-list {FILE_LIST} --pref {prefix}"
     assess_commands.append((assess_command, target))
 
 for assess_cmd in assess_commands:

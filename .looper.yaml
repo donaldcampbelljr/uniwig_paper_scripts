@@ -1,4 +1,4 @@
 pep_config: metadata/pep_config.yaml
-output_dir: /home/drc/Downloads/test_looper_atac/ #${RESULTS}
+output_dir: ${RESULTS}
 pipeline_interfaces:
   - pipeline/pipeline_interface.yaml
