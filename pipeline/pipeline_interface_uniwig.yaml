@@ -1,0 +1,6 @@
+#sample_name,input_folder,results_folder, file_list
+pipeline_name: uniwig_creation
+sample_interface:
+  command_template: >
+    python3 pipeline/pipeline_uniwig.py {looper.output_dir} {sample.sample_name} {sample.input_folder} {sample.file_list} {sample.chrom_sizes} {sample.gtars_path}
+   

@@ -1,0 +1,9 @@
+sample_name,input_folder,file_list,coverage_folder,score,universe
+atacseq15_1, /home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15/,/home/drc/Downloads/GTARS_PAPER/sample_list/15_atac_seq.txt,/home/drc/Downloads/test_looper_atac_2/uniwig_output/atacseq15/score/,score,cc
+atacseq15_2, /home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15/,/home/drc/Downloads/GTARS_PAPER/sample_list/15_atac_seq.txt,/home/drc/Downloads/test_looper_atac_2/uniwig_output/atacseq15/score/,score,ccf
+atacseq15_3, /home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15/,/home/drc/Downloads/GTARS_PAPER/sample_list/15_atac_seq.txt,/home/drc/Downloads/test_looper_atac_2/uniwig_output/atacseq15/score/,score,hmm
+atacseq15_4, /home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15/,/home/drc/Downloads/GTARS_PAPER/sample_list/15_atac_seq.txt,/home/drc/Downloads/test_looper_atac_2/uniwig_output/atacseq15/score/,score,ml
+atacseq15_5, /home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15/,/home/drc/Downloads/GTARS_PAPER/sample_list/15_atac_seq.txt,/home/drc/Downloads/test_looper_atac_2/uniwig_output/atacseq15/score/,no_score,cc
+atacseq15_6, /home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15/,/home/drc/Downloads/GTARS_PAPER/sample_list/15_atac_seq.txt,/home/drc/Downloads/test_looper_atac_2/uniwig_output/atacseq15/score/,no_score,ccf
+atacseq15_7, /home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15/,/home/drc/Downloads/GTARS_PAPER/sample_list/15_atac_seq.txt,/home/drc/Downloads/test_looper_atac_2/uniwig_output/atacseq15/score/,no_score,hmm
+atacseq15_8, /home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15/,/home/drc/Downloads/GTARS_PAPER/sample_list/15_atac_seq.txt,/home/drc/Downloads/test_looper_atac_2/uniwig_output/atacseq15/score/,no_score,ml
