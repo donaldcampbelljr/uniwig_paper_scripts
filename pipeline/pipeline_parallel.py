@@ -81,13 +81,56 @@ if not geniml_cmd_callable:
     pm.stop_pipeline()
     raise Exception
 
-# BUILD GENIML UNIVERSE CREATION CMD
-subcommand = UNIVERSE
-universe_target_file =  os.path.join(UNIVERSE_OUTPUT,f"{UNIVERSE}_{SCORE}_{sample_name}.bed")
-geniml_cmd  = f"geniml build-universe {subcommand} --output-file {universe_target_file} --coverage-folder {COVERAGE_FOLDER}"
+if UNIVERSE != "ml":
+    # BUILD GENIML UNIVERSE CREATION CMD
+    subcommand = UNIVERSE
+    universe_target_file =  os.path.join(UNIVERSE_OUTPUT,f"{UNIVERSE}_{SCORE}_{sample_name}.bed")
+    geniml_cmd  = f"geniml build-universe {subcommand} --output-file {universe_target_file} --coverage-folder {COVERAGE_FOLDER}"
 
-pm.run(geniml_cmd, universe_target_file)
+    pm.run(geniml_cmd, universe_target_file)
 
+elif UNIVERSE == "ml":
+    print("ml universe requires additional step")
+
+    MODEL_DIR = os.path.join(RESULTS_DIRECTORY, "model_output", f"{sample_name}",  f"{SCORE}", f"{UNIVERSE}")
+
+    if not os.path.exists(MODEL_DIR):
+        os.makedirs(MODEL_DIR)
+        print(f"Created directory: {MODEL_DIR}")
+    else:
+        print(f"Directory already exists: {MODEL_DIR}")
+
+    model_target_file = os.path.join(MODEL_DIR,f"{UNIVERSE}_{SCORE}_{sample_name}.model")
+
+    try:
+        # Open the file in read mode ('r')
+        with open(FILE_LIST, 'r') as file:
+            # Count the number of lines using a generator expression for efficiency
+            line_count = sum(1 for line in file)
+
+        # Print the result
+        print(f"The number of lines (files) in '{FILE_LIST}' is: {line_count}")
+
+    except FileNotFoundError:
+        # Handle the case where the file does not exist
+        print(f"Error: The file '{FILE_LIST}' was not found.")
+        raise Exception
+    except Exception as e:
+        # Handle any other potential errors
+        print(f"An unexpected error occurred: {e}")
+        raise Exception
+
+    #get number of files
+    model_command = f"geniml lh --model-file {model_target_file} --file-no {line_count}  --coverage-folder {COVERAGE_FOLDER} --coverage-prefix all"
+
+    print("Creating model file...")
+    pm.run(model_command, model_target_file)
+
+    subcommand = UNIVERSE
+    universe_target_file =  os.path.join(UNIVERSE_OUTPUT,f"{UNIVERSE}_{SCORE}_{sample_name}.bed")
+    geniml_cmd  = f"geniml build-universe {subcommand} --output-file {universe_target_file} --coverage-folder {COVERAGE_FOLDER} --model-file {model_target_file}"
+
+    pm.run(geniml_cmd, universe_target_file)
 
 # AFTER UNIVERSE IS CREATED, ASSESS 
 prefix = f"{UNIVERSE}_{SCORE}_{sample_name}"
