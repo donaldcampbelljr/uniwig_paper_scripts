@@ -1,2 +1,3 @@
 sample_name,input_folder,file_list
 scatlas2,/project/shefflab/brickyard/results_pipeline/gtars_uniwig/experiment_scatlas2/scatlas_file_list.txt,/project/shefflab/brickyard/results_pipeline/gtars_uniwig/experiment_scatlas2/scatlas_file_list.txt
+lympho400,/project/shefflab/brickyard/results_pipeline/gtars_uniwig/experiment_lymphoblastoid_400/lympho_file_list_400.txt,/project/shefflab/brickyard/results_pipeline/gtars_uniwig/experiment_lymphoblastoid_400/lympho_file_list_400.txt
