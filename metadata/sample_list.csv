@@ -1,3 +1,2 @@
 sample_name,input_folder,file_list
-atacseq15, /home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15/,/home/drc/Downloads/GTARS_PAPER/sample_list/15_atac_seq.txt
-scatlas15, /home/drc/Downloads/GTARS_PAPER/sample_list/nathan_scatlas_macs2_narrowpeaks/,/home/drc/Downloads/GTARS_PAPER/sample_list/15_scatlas_narrowpeaks.txt
+scatlas2,/project/shefflab/brickyard/results_pipeline/gtars_uniwig/experiment_scatlas2/scatlas_file_list.txt,/project/shefflab/brickyard/results_pipeline/gtars_uniwig/experiment_scatlas2/scatlas_file_list.txt
