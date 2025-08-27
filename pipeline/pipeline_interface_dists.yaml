@@ -1,4 +1,4 @@
 pipeline_name: get_file_dists
 sample_interface:
   command_template: >
-    python3 scripts/get_dists.py {looper.output_dir} {sample.input} {sample.file_extension}
+    python3 scripts/get_dists.py {looper.output_dir} {sample.input} {sample.file_extension} {sample.sample_name}

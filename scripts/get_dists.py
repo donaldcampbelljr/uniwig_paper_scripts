@@ -21,6 +21,8 @@ INPUT_PATH = sys.argv[2]
 #FILE_EXTENSION = ".gz"
 FILE_EXTENSION = sys.argv[3]
 
+SAMPLE_NAME = sys.argv[4]
+
 def get_file_list(input_path):
     """
     Determines if the input path is a directory or a file listing absolute paths.
@@ -37,6 +39,7 @@ def get_file_list(input_path):
     else:
         raise ValueError("Input must be a directory path or a .txt file containing a list of absolute file paths.")
 
+RESULTS_DIR = os.path.join(RESULTS_DIR,SAMPLE_NAME)
 
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
