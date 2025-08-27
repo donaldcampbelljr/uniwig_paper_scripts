@@ -10,8 +10,8 @@ GROUPED_BAR_GRAPH = False
 BOX_PLOT = True
 
 # Define the directory for results and the input data
-RESULTS_DIR = "/home/drc/Downloads/uniwig_paper_figs/"
-DATA_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/15_ATACSEQ/STATS/ALL_STATS/"
+RESULTS_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/stats_from_rivanna/lympho400/FIGS/"
+DATA_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/stats_from_rivanna/lympho400/stats_output/"
 
 
 # Ensure the results directory exists
@@ -24,16 +24,32 @@ stats = ["median_dist_file_to_universe", 'univers/file', 'file/universe', 'unive
 # List to hold all dataframes
 list_of_dfs = []
 
-# Process scored data
-for filename in sorted(os.listdir(DATA_DIR)):
-    if filename.endswith(".csv"):
-        file_path = os.path.join(DATA_DIR, filename)
-        df = pd.read_csv(file_path)
-        base_name = filename.split('.')[0].upper()
-        print(f"Here is basename {base_name}")
-        df['data_source'] = f"{base_name}"
-        list_of_dfs.append(df)
+# # Process scored data
 
+# for filename in sorted(os.listdir(DATA_DIR)):
+#     if filename.endswith(".csv"):
+#         file_path = os.path.join(DATA_DIR, filename)
+#         df = pd.read_csv(file_path)
+#         base_name = filename.split('.')[0].upper()
+#         print(f"Here is basename {base_name}")
+#         df['data_source'] = f"{base_name}"
+#         list_of_dfs.append(df)
+
+for root, dirs, files in os.walk(DATA_DIR):
+    for filename in sorted(files):
+        if filename.endswith(".csv"):
+            file_path = os.path.join(root, filename)
+            df = pd.read_csv(file_path)
+            
+            # The base name is the name of the file without the extension
+            base_name = os.path.splitext(filename)[0].upper()
+            
+            print(f"Here is basename {base_name}")
+            
+            # Add a 'data_source' column to the DataFrame
+            df['data_source'] = f"{base_name}"
+            
+            list_of_dfs.append(df)
 
 # Combine all the dataframes into a single dataframe
 if not list_of_dfs:
