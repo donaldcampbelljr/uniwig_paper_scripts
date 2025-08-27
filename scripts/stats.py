@@ -3,15 +3,15 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from utils import f_beta_score
+from utils import f_beta_score, get_rbs, get_rbs_from_assessment_file, get_f_10_score_from_assessment_file
 
 # WHICH GRAPHS DO YOU WANT TO PRODUCE
 GROUPED_BAR_GRAPH = False
 BOX_PLOT = True
 
 # Define the directory for results and the input data
-RESULTS_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/stats_from_rivanna/scatlas2/FIGS/"
-DATA_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/stats_from_rivanna/scatlas2/stats_output/"
+RESULTS_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/stats_from_rivanna/lympho400/FIGS/"
+DATA_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/stats_from_rivanna/lympho400/stats_output/"
 
 
 # Ensure the results directory exists
@@ -19,7 +19,7 @@ if not os.path.exists(RESULTS_DIR):
     os.makedirs(RESULTS_DIR)
 
 # Define the column names for the statistics you want to plot
-stats = ["median_dist_file_to_universe", 'univers/file', 'file/universe', 'universe&file', 'f10_beta_score']
+stats = ["median_dist_file_to_universe", 'univers/file', 'file/universe', 'universe&file', 'f10_beta_score', 'rbs']
 
 # List to hold all dataframes with names
 list_of_dfs_with_names = []
@@ -76,6 +76,11 @@ else:
             fn=row['file/universe']
         ),
         axis=1
+    )
+
+    df_combined['rbs'] = df_combined.apply(
+    lambda row: get_rbs(row['median_dist_file_to_universe'], row['median_dist_universe_to_file']),
+    axis=1
     )
 
     if GROUPED_BAR_GRAPH:
