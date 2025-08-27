@@ -88,11 +88,16 @@ bedfile2 = "/home/drc/Downloads/uniwig_outputs_Rivanna_26aug2025/scatlas/univers
 bedfile3 = "/home/drc/Downloads/uniwig_outputs_Rivanna_26aug2025/lympho_sample/universe_output/lympho400_03/score/hmm/hmm_score_lympho400_03.bed"
 bedfile4 = "/home/drc/Downloads/uniwig_outputs_Rivanna_26aug2025/lympho_sample/universe_output/lympho400_07/no_score/hmm/hmm_no_score_lympho400_07.bed"
 
+bedfile5 =  "/home/drc/Downloads/uniwig_outputs_Rivanna_26aug2025/atacseq500/universe_output/atacseq500_03/score/hmm/hmm_score_atacseq500_03.bed"
+bedfile6 =  "/home/drc/Downloads/uniwig_outputs_Rivanna_26aug2025/atacseq500/universe_output/atacseq500_07/no_score/hmm/hmm_no_score_atacseq500_07.bed"
+
 # Run the analysis for both files.
 widths1 = analyze_bed_file(bedfile1)
 widths2 = analyze_bed_file(bedfile2)
-# analyze_bed_file(bedfile3)
-# analyze_bed_file(bedfile4)
+widths3 = analyze_bed_file(bedfile3)
+widths4 = analyze_bed_file(bedfile4)
+widths5 = analyze_bed_file(bedfile5)
+widths6 = analyze_bed_file(bedfile6)
 
 if widths1 is not None and widths2 is not None:
     print("\nPerforming two-sample t-test to compare region width distributions...")
