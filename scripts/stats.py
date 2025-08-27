@@ -10,8 +10,8 @@ GROUPED_BAR_GRAPH = False
 BOX_PLOT = True
 
 # Define the directory for results and the input data
-RESULTS_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/stats_from_rivanna/lympho400/FIGS/"
-DATA_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/stats_from_rivanna/lympho400/stats_output/"
+RESULTS_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/stats_from_rivanna/scatlas2/FIGS/"
+DATA_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/stats_from_rivanna/scatlas2/stats_output/"
 
 
 # Ensure the results directory exists
@@ -21,8 +21,8 @@ if not os.path.exists(RESULTS_DIR):
 # Define the column names for the statistics you want to plot
 stats = ["median_dist_file_to_universe", 'univers/file', 'file/universe', 'universe&file', 'f10_beta_score']
 
-# List to hold all dataframes
-list_of_dfs = []
+# List to hold all dataframes with names
+list_of_dfs_with_names = []
 
 # # Process scored data
 
@@ -33,7 +33,8 @@ list_of_dfs = []
 #         base_name = filename.split('.')[0].upper()
 #         print(f"Here is basename {base_name}")
 #         df['data_source'] = f"{base_name}"
-#         list_of_dfs.append(df)
+#         list_of_dfs_with_names.append((base_name, df))
+
 
 for root, dirs, files in os.walk(DATA_DIR):
     for filename in sorted(files):
@@ -43,19 +44,26 @@ for root, dirs, files in os.walk(DATA_DIR):
             
             # The base name is the name of the file without the extension
             base_name = os.path.splitext(filename)[0].upper()
+
+            parts = base_name.rsplit('_', 2)
+
+            base_name = parts[0]
             
             print(f"Here is basename {base_name}")
             
             # Add a 'data_source' column to the DataFrame
             df['data_source'] = f"{base_name}"
             
-            list_of_dfs.append(df)
+            list_of_dfs_with_names.append((base_name, df))
+
+list_of_dfs_with_names.sort(key=lambda x: x[0])
+sorted_list_of_dfs = [df for name, df in list_of_dfs_with_names]
 
 # Combine all the dataframes into a single dataframe
-if not list_of_dfs:
+if not sorted_list_of_dfs:
     print("No CSV files found. Please check the directory paths.")
 else:
-    df_combined = pd.concat(list_of_dfs, ignore_index=True)
+    df_combined = pd.concat(sorted_list_of_dfs, ignore_index=True)
     df_combined.dropna(inplace=True)
 
     # Re-calculate the F-beta score for all combined data
