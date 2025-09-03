@@ -8,10 +8,11 @@ from utils import f_beta_score, get_rbs, get_rbs_from_assessment_file, get_f_10_
 # WHICH GRAPHS DO YOU WANT TO PRODUCE
 GROUPED_BAR_GRAPH = False
 BOX_PLOT = True
+MEAN_BAR_GRAPHS = True
 
 # Define the directory for results and the input data
-RESULTS_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/stats_from_rivanna/lympho400/FIGS/"
-DATA_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/stats_from_rivanna/lympho400/stats_output/"
+RESULTS_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/UNIWIG_EXPERIMENTAL_RESULTS_RIVANNA_26Aug2025/stats_from_rivanna/lympho400/FIGS_NEW/"
+DATA_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/UNIWIG_EXPERIMENTAL_RESULTS_RIVANNA_26Aug2025/stats_from_rivanna/lympho400/stats_output/"
 
 
 # Ensure the results directory exists
@@ -119,3 +120,22 @@ else:
             plt.savefig(output_path, dpi=300, bbox_inches='tight')
             plt.close()
         print("Box plots saved.")
+
+
+    if MEAN_BAR_GRAPHS:
+        print("Generating mean bar graphs...")
+        for stat in stats:
+            plt.figure(figsize=(12, 8))
+            sns.barplot(x='data_source', y=stat, data=df_combined, palette='viridis', estimator=np.mean, ci=None)
+            plt.title(f'Mean {stat} by Data Source', fontsize=16)
+            plt.xlabel('Data Source', fontsize=12)
+            plt.ylabel(f'Mean {stat}', fontsize=12)
+            plt.xticks(rotation=45, ha='right')
+            plt.grid(axis='y', linestyle='--')
+            plt.tight_layout()
+            
+            stat_rename = stat.replace('/', '_')
+            output_path = os.path.join(RESULTS_DIR, f'mean_{stat_rename}_barplot.png')
+            plt.savefig(output_path, dpi=300, bbox_inches='tight')
+            plt.close()
+        print("Mean bar graphs saved.")
