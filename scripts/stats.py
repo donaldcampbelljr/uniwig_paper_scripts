@@ -126,8 +126,8 @@ else:
         print("Generating mean bar graphs...")
         for stat in stats:
             plt.figure(figsize=(12, 8))
-            sns.barplot(x='data_source', y=stat, data=df_combined, palette='viridis', estimator=np.mean, ci=None)
-            plt.title(f'Mean {stat} by Data Source', fontsize=16)
+            sns.barplot(x='data_source', y=stat, data=df_combined, palette='viridis', estimator=np.mean, ci='sd', width=0.6)
+            plt.title(f'Mean {stat} by Data Source with Standard Deviation', fontsize=16)
             plt.xlabel('Data Source', fontsize=12)
             plt.ylabel(f'Mean {stat}', fontsize=12)
             plt.xticks(rotation=45, ha='right')
@@ -138,4 +138,4 @@ else:
             output_path = os.path.join(RESULTS_DIR, f'mean_{stat_rename}_barplot.png')
             plt.savefig(output_path, dpi=300, bbox_inches='tight')
             plt.close()
-        print("Mean bar graphs saved.")
+        print("Mean bar graphs with standard deviation saved.")
