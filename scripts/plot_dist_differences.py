@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import argparse
 import os
+from scipy.stats import ks_2samp
 
 from utils import f_beta_score, get_rbs, get_rbs_from_assessment_file, get_f_10_score_from_assessment_file
 
@@ -75,6 +76,10 @@ def process_and_plot_pair(score_file_path, no_score_file_path, group_name, sampl
         score_data = df_score[stat]
         no_score_data = df_no_score[stat]
 
+        # --- Perform Kolmogorov-Smirnov Test ---
+        ks_statistic, p_value = ks_2samp(score_data, no_score_data)
+
+
         stat = stat.replace('/', '_')
         final_stat_path = os.path.join(output_dir,stat)
         os.makedirs(final_stat_path, exist_ok=True)
@@ -84,6 +89,13 @@ def process_and_plot_pair(score_file_path, no_score_file_path, group_name, sampl
         plt.figure(figsize=(12, 8))
         sns.histplot(score_data, kde=True, label='Score', color='royalblue', stat='density', alpha=0.6)
         sns.histplot(no_score_data, kde=True, label='No Score', color='darkorange', stat='density', alpha=0.6)
+                # --- Add KS Test results to the plot ---
+        results_text = f"KS Statistic: {ks_statistic:.4f}\nP-value: {p_value:.4e}"
+        # Position the text on the plot. Adjust the x and y coordinates as needed.
+        plt.text(0.95, 0.95, results_text, transform=plt.gca().transAxes,
+                 fontsize=12, verticalalignment='top', horizontalalignment='right',
+                 bbox=dict(boxstyle='round,pad=0.5', fc='white', alpha=0.6))
+        # ---------------------------------------
         plt.title(f'Distribution of {stat}\nfor {group_name} {sample_name}', fontsize=16, pad=20)
         plt.xlabel('Median Distance File to Universe', fontsize=12)
         plt.ylabel('Density', fontsize=12)
