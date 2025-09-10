@@ -1,3 +1,5 @@
+# Looks at distributions of score values in  bed like files, provides unfiltered and filtered (IQR) views.
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import os

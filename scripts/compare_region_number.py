@@ -1,3 +1,5 @@
+# Looks at the width of regions in bed files, to be used to evaluate differences in Universes.
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
