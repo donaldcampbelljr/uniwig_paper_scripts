@@ -5,6 +5,9 @@ import seaborn as sns
 import argparse
 import os
 
+from utils import f_beta_score, get_rbs, get_rbs_from_assessment_file, get_f_10_score_from_assessment_file
+
+
 def process_and_plot_pair(score_file_path, no_score_file_path, group_name, sample_name, output_dir, stat):
     """
     Loads a pair of score and no_score CSV files, plots their distributions,
@@ -28,6 +31,39 @@ def process_and_plot_pair(score_file_path, no_score_file_path, group_name, sampl
         # Load the data
         df_score = pd.read_csv(score_file_path)
         df_no_score = pd.read_csv(no_score_file_path)
+
+        if stat == 'f10_beta_score':
+                # Re-calculate the F-beta score for all combined data
+            beta_value = 10
+            df_score['f10_beta_score'] = df_score.apply(
+                    lambda row: f_beta_score(
+                        beta_value,
+                        tp=row['universe&file'],
+                        fp=row['univers/file'],
+                        fn=row['file/universe']
+                    ),
+                    axis=1
+                    )
+            df_no_score['f10_beta_score'] = df_no_score.apply(
+                    lambda row: f_beta_score(
+                        beta_value,
+                        tp=row['universe&file'],
+                        fp=row['univers/file'],
+                        fn=row['file/universe']
+                    ),
+                    axis=1
+                    )
+        if stat == 'rbs':
+                # Re-calculate the F-beta score for all combined data
+            beta_value = 10
+            df_score['rbs'] = df_score.apply(
+            lambda row: get_rbs(row['median_dist_file_to_universe'], row['median_dist_universe_to_file']),
+            axis=1
+            )
+            df_no_score['rbs'] = df_no_score.apply(
+            lambda row: get_rbs(row['median_dist_file_to_universe'], row['median_dist_universe_to_file']),
+            axis=1
+            )
         
         # Ensure the required column exists
         if stat not in df_score.columns or \
@@ -38,6 +74,11 @@ def process_and_plot_pair(score_file_path, no_score_file_path, group_name, sampl
         # Get the columns to plot
         score_data = df_score[stat]
         no_score_data = df_no_score[stat]
+
+        stat = stat.replace('/', '_')
+        final_stat_path = os.path.join(output_dir,stat)
+        os.makedirs(final_stat_path, exist_ok=True)
+    
         
         # Plot 1: Both distributions on one plot
         plt.figure(figsize=(12, 8))
@@ -48,7 +89,7 @@ def process_and_plot_pair(score_file_path, no_score_file_path, group_name, sampl
         plt.ylabel('Density', fontsize=12)
         plt.legend()
         plt.tight_layout()
-        plt.savefig(os.path.join(output_dir, f'{group_name}_{sample_name}_{stat}_distributions.png'))
+        plt.savefig(os.path.join(output_dir, stat,f'{group_name}_{sample_name}_{stat}_distributions.png'))
         plt.close()
         
         # Plot 2: Distribution of the difference
@@ -56,17 +97,17 @@ def process_and_plot_pair(score_file_path, no_score_file_path, group_name, sampl
         
         plt.figure(figsize=(12, 8))
         sns.histplot(difference_data, kde=True, color='forestgreen', stat='density')
-        plt.title(f'Distribution of the Difference (Score - No Score)\nfor {group_name} {sample_name}', fontsize=16, pad=20)
+        plt.title(f'Distribution of the Difference (Score - No Score) {stat}\nfor {group_name} {sample_name}', fontsize=16, pad=20)
         plt.xlabel('Difference in Median Distance', fontsize=12)
         plt.ylabel('Density', fontsize=12)
         plt.tight_layout()
-        plt.savefig(os.path.join(output_dir, f'{group_name}_{sample_name}_{stat}_difference_distribution.png'))
+        plt.savefig(os.path.join(output_dir, stat,f'{group_name}_{sample_name}_{stat}_difference_distribution.png'))
         plt.close()
 
         print(f"Successfully created plots for '{group_name}_{sample_name}'.")
 
     except Exception as e:
-        print(f"An error occurred while processing '{group_name}_{sample_name}': {e}")
+        print(f"!!!!!An error occurred while processing '{group_name}_{sample_name}': {e}")
 
 def main(input_dir, output_dir, stat='median_dist_file_to_universe'):
     """
@@ -119,14 +160,27 @@ def main(input_dir, output_dir, stat='median_dist_file_to_universe'):
     for key, file_paths in file_pairs.items():
         if 'score' in file_paths and 'no_score' in file_paths:
             group_name, sample_name = key.split('_', 1)
-            process_and_plot_pair(
-                file_paths['score'], 
-                file_paths['no_score'], 
-                group_name, 
-                sample_name, 
-                output_dir,
-                stat
-            )
+
+            if not isinstance(stat, list):
+                process_and_plot_pair(
+                    file_paths['score'], 
+                    file_paths['no_score'], 
+                    group_name, 
+                    sample_name, 
+                    output_dir,
+                    stat
+                )
+            elif isinstance(stat, list):
+                for statistic in stat:
+                    process_and_plot_pair(
+                    file_paths['score'], 
+                    file_paths['no_score'], 
+                    group_name, 
+                    sample_name, 
+                    output_dir,
+                    statistic
+                    )
+
             processed_count += 1
         else:
             print(f'Incomplete pair found for key: {key}. Skipping.')
@@ -144,6 +198,9 @@ if __name__ == '__main__':
     
     # # Call the main function with the provided arguments
     # main(args.input_dir, args.output_dir)
+
+    stat = ["median_dist_file_to_universe", 'univers/file', 'file/universe', 'universe&file', 'f10_beta_score', 'rbs']
+
     main("/home/drc/Downloads/GTARS_PAPER/PROCESSED/UNIWIG_EXPERIMENTAL_RESULTS_RIVANNA_26Aug2025/stats_from_rivanna/atacseq500/stats_output/",
          "/home/drc/Downloads/GTARS_PAPER/ASSESSING_DISTRIBUTIONS/10sep2025/",
-         stat='median_dist_file_to_universe')
+         stat=stat)
