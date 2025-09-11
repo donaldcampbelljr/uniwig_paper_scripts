@@ -121,7 +121,7 @@ if __name__ == "__main__":
         "-n", "--num_lines",
         type=int,
         default=1000,
-        help="The number of lines (peaks) to generate (maximum 1000)."
+        help="The number of lines (peaks) to generate."
     )
 
     parser.add_argument(
@@ -155,10 +155,10 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
 
-    # Clamp the number of lines to a maximum of 1000.
-    if args.num_lines > 1000:
-        print("Warning: Limiting the number of lines to the maximum of 1000.", file=sys.stderr)
-        args.num_lines = 1000
+    # # Clamp the number of lines to a maximum of 1000.
+    # if args.num_lines > 1000:
+    #     print("Warning: Limiting the number of lines to the maximum of 1000.", file=sys.stderr)
+    #     args.num_lines = 1000
 
     generate_narrowpeak_file(
         num_lines=args.num_lines,

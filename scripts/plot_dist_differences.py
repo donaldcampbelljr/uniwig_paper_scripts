@@ -213,6 +213,10 @@ if __name__ == '__main__':
 
     stat = ["median_dist_file_to_universe", 'univers/file', 'file/universe', 'universe&file', 'f10_beta_score', 'rbs']
 
-    main("/home/drc/Downloads/GTARS_PAPER/PROCESSED/UNIWIG_EXPERIMENTAL_RESULTS_RIVANNA_26Aug2025/stats_from_rivanna/atacseq500/stats_output/",
-         "/home/drc/Downloads/GTARS_PAPER/ASSESSING_DISTRIBUTIONS/10sep2025/",
+
+    input_dir ="/home/drc/Downloads/narrowpeakgeneration/experiment1/output/stats_output/"
+    output_dir = "/home/drc/Downloads/narrowpeakgeneration/experiment1/stats_figs/"
+
+    main(input_dir,
+         output_dir,
          stat=stat)
