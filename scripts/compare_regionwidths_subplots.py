@@ -5,8 +5,12 @@ import matplotlib.pyplot as plt
 import os
 import math
 
-INPUT_DATA_DIR = "/home/drc/Downloads/narrowpeakgeneration/experiment1/input_files/"
-RESULTS_DIR = "/home/drc/Downloads/narrowpeakgeneration/experiment1/stats_figs/region_widths/"
+# INPUT_DATA_DIR = "/home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15/"
+# RESULTS_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/atacseq15_regionwidths/"
+
+INPUT_DATA_DIR = "/home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15/"
+RESULTS_DIR = "/home/drc/Downloads/narrowpeakgeneration/experiment4/stats_figs/region_widths/"
+
 
 # Define the number of subplots per figure to maintain readability.
 SUBPLOTS_PER_FIGURE = 6
@@ -81,7 +85,7 @@ def create_subplot_figure(file_paths, figure_number):
             median_width = widths.median()
             
             # Create the histogram on the current subplot.
-            ax.hist(widths, bins=50, color='skyblue', edgecolor='black')
+            ax.hist(widths, bins=100, color='skyblue', edgecolor='black')
             
             # Add vertical lines for mean and median.
             ax.axvline(mean_width, color='red', linestyle='dashed', linewidth=1.5, label=f'Mean: {mean_width:.2f}')

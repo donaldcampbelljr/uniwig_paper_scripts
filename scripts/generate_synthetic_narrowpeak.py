@@ -42,12 +42,18 @@ def generate_narrowpeak_file(
     # Construct the full path for the output file.
     output_path = os.path.join(output_dir, output_filename)
 
+    LAMBDA = 0.005
+    MIN_PEAK_WIDTH = 10
+    MAX_PEAK_WIDTH = 1000
+
     try:
         with open(output_path, 'w') as f:
 
             for i in range(num_lines):
                 # Generate a random peak width between 10 and 1000 bp.
-                peak_width = random.randint(10, 1000)
+                peak_width = int(random.expovariate(LAMBDA))
+                peak_width = max(MIN_PEAK_WIDTH, min(peak_width, MAX_PEAK_WIDTH))
+                #peak_width = random.randint(10, 1000)
 
                 # Generate a random start position for the peak.
                 # The start position is chosen such that the end position does
