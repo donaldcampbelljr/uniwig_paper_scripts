@@ -94,7 +94,7 @@ def generate_narrowpeak_file(
                     chrom_start = random.randint(0, CHR1_LENGTH - peak_width)
                     chrom_end = chrom_start + peak_width
 
-                    name = "SPIKE_SYNTHETIC"
+                    name = "SPIKE"
 
                     score = random.randint(1200, 1400)
 
