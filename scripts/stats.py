@@ -11,8 +11,8 @@ BOX_PLOT = True
 MEAN_BAR_GRAPHS = True
 
 # Define the directory for results and the input data
-RESULTS_DIR = "/home/drc/Downloads/narrowpeakgeneration/experiment4/stats_figs/primary_stats/"
-DATA_DIR = "/home/drc/Downloads/narrowpeakgeneration/experiment4/stats_output/"
+RESULTS_DIR = "/home/drc/Downloads/narrowpeakgeneration/experiment10/stats_figs/primary_stats/"
+DATA_DIR = "/home/drc/Downloads/narrowpeakgeneration/experiment10/stats_output/"
 
 
 # Ensure the results directory exists

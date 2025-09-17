@@ -1,5 +1,6 @@
 # plots and compares distributions of stats for each universe, score vs no scoreimport os
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import argparse
@@ -32,6 +33,9 @@ def process_and_plot_pair(score_file_path, no_score_file_path, group_name, sampl
         # Load the data
         df_score = pd.read_csv(score_file_path)
         df_no_score = pd.read_csv(no_score_file_path)
+
+
+    
 
         if stat == 'f10_beta_score':
                 # Re-calculate the F-beta score for all combined data
@@ -76,6 +80,13 @@ def process_and_plot_pair(score_file_path, no_score_file_path, group_name, sampl
         score_data = df_score[stat]
         no_score_data = df_no_score[stat]
 
+        num_bins = 50 
+        all_data = pd.concat([score_data, no_score_data])
+        min_val = all_data.min()
+        max_val = all_data.max()
+        # Create an array of bins from min to max
+        bin_edges = np.linspace(min_val, max_val, num_bins)
+
         # --- Perform Kolmogorov-Smirnov Test ---
         ks_statistic, p_value = ks_2samp(score_data, no_score_data)
 
@@ -87,8 +98,8 @@ def process_and_plot_pair(score_file_path, no_score_file_path, group_name, sampl
         
         # Plot 1: Both distributions on one plot
         plt.figure(figsize=(12, 8))
-        sns.histplot(score_data, kde=True, label='Score', color='royalblue', stat='density', alpha=0.6)
-        sns.histplot(no_score_data, kde=True, label='No Score', color='darkorange', stat='density', alpha=0.6)
+        sns.histplot(score_data, kde=True, label='Score', color='royalblue', stat='density', alpha=0.6,bins=bin_edges)
+        sns.histplot(no_score_data, kde=True, label='No Score', color='darkorange', stat='density', alpha=0.6,bins=bin_edges)
                 # --- Add KS Test results to the plot ---
         results_text = f"KS Statistic: {ks_statistic:.4f}\nP-value: {p_value:.4e}"
         # Position the text on the plot. Adjust the x and y coordinates as needed.
@@ -108,7 +119,8 @@ def process_and_plot_pair(score_file_path, no_score_file_path, group_name, sampl
         difference_data = score_data - no_score_data
         
         plt.figure(figsize=(12, 8))
-        sns.histplot(difference_data, kde=True, color='forestgreen', stat='density')
+        diff_bins = np.linspace(difference_data.min(), difference_data.max(), num_bins)
+        sns.histplot(difference_data, kde=True, color='forestgreen', stat='density', bins=diff_bins)
         plt.title(f'Distribution of the Difference (Score - No Score) {stat}\nfor {group_name} {sample_name}', fontsize=16, pad=20)
         plt.xlabel('Difference in Median Distance', fontsize=12)
         plt.ylabel('Density', fontsize=12)
@@ -214,8 +226,8 @@ if __name__ == '__main__':
     stat = ["median_dist_file_to_universe", 'univers/file', 'file/universe', 'universe&file', 'f10_beta_score', 'rbs']
 
 
-    input_dir ="/home/drc/Downloads/narrowpeakgeneration/experiment4/stats_output/"
-    output_dir = "/home/drc/Downloads/narrowpeakgeneration/experiment4/stats_figs/dist_diffs/"
+    input_dir ="/home/drc/Downloads/narrowpeakgeneration/experiment10/stats_output/"
+    output_dir = "/home/drc/Downloads/narrowpeakgeneration/experiment10/stats_figs/dist_diffs/"
 
     main(input_dir,
          output_dir,

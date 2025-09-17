@@ -28,6 +28,22 @@ SCORE = sys.argv[8]
 
 UNIVERSE = sys.argv[9]
 
+CC_MERGE = 0
+CC_FILTER_SIZE = 0
+CC_CUTOFF = None
+
+CC_MERGE = sys.argv[10]
+CC_FILTER_SIZE = sys.argv[11]
+CC_CUTOFF = sys.argv[12]
+
+def parse_none_string(value):
+    if value == "None":
+        return None
+    return value
+
+CC_CUTOFF = parse_none_string(CC_CUTOFF)
+print(f"CC_CUTOFF: {CC_CUTOFF} and is type: {type(CC_CUTOFF)} ")
+
 
 # SET UP DIRECTORIES
 # UNIWIG, UNIVERSE, STATS, FIGURES, logs
@@ -83,6 +99,7 @@ if not geniml_cmd_callable:
 
 
 if UNIVERSE == "ml":
+    print("BUILDING ML UNIVERSE")
     print("ml universe requires additional step")
 
     MODEL_DIR = os.path.join(RESULTS_DIRECTORY, "model_output", f"{sample_name}",  f"{SCORE}", f"{UNIVERSE}")
@@ -129,18 +146,21 @@ elif UNIVERSE == "cc":
     # cc_universe(cove, file_out, cove_prefix="all", merge=0, filter_size=0, cutoff=None):
     # BUILD GENIML UNIVERSE CREATION CMD
 
-    CC_MERGE = 0
-    CC_FILTER_SIZE = 0
-    CC_CUTOFF = None
+    print("BUILDING CC UNIVERSE")
+
 
     subcommand = UNIVERSE
     universe_target_file =  os.path.join(UNIVERSE_OUTPUT,f"{UNIVERSE}_{SCORE}_{sample_name}.bed")
-    geniml_cmd  = f"geniml build-universe {subcommand} --output-file {universe_target_file} --coverage-folder {COVERAGE_FOLDER} --merge {CC_MERGE} --filter-size {CC_FILTER_SIZE} --cutoff {CC_CUTOFF}"
+    if CC_CUTOFF:
+        geniml_cmd  = f"geniml build-universe {subcommand} --output-file {universe_target_file} --coverage-folder {COVERAGE_FOLDER} --merge {CC_MERGE} --filter-size {CC_FILTER_SIZE} --cutoff {CC_CUTOFF}"
+    else:
+        geniml_cmd  = f"geniml build-universe {subcommand} --output-file {universe_target_file} --coverage-folder {COVERAGE_FOLDER} --merge {CC_MERGE} --filter-size {CC_FILTER_SIZE}"
 
     pm.run(geniml_cmd, universe_target_file)
 
 elif UNIVERSE != "ml":
     # BUILD GENIML UNIVERSE CREATION CMD
+    print(f"BUILDING {UNIVERSE} UNIVERSE")
     subcommand = UNIVERSE
     universe_target_file =  os.path.join(UNIVERSE_OUTPUT,f"{UNIVERSE}_{SCORE}_{sample_name}.bed")
     geniml_cmd  = f"geniml build-universe {subcommand} --output-file {universe_target_file} --coverage-folder {COVERAGE_FOLDER}"
