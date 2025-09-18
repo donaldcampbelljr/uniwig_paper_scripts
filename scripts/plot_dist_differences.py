@@ -226,8 +226,8 @@ if __name__ == '__main__':
     stat = ["median_dist_file_to_universe", 'univers/file', 'file/universe', 'universe&file', 'f10_beta_score', 'rbs']
 
 
-    input_dir ="/home/drc/Downloads/narrowpeakgeneration/experiment10/stats_output/"
-    output_dir = "/home/drc/Downloads/narrowpeakgeneration/experiment10/stats_figs/dist_diffs/"
+    input_dir ="/home/drc/Downloads/narrowpeakgeneration/experiment12/stats_output/"
+    output_dir = "/home/drc/Downloads/narrowpeakgeneration/experiment12/stats_figs/dist_diffs/"
 
     main(input_dir,
          output_dir,

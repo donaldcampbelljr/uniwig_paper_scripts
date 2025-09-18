@@ -17,6 +17,15 @@ def f_beta_score(beta,tp,fp,fn):
     return f_beta
 
 
+def get_recall(tp,fn):
+    recall = tp/(tp+fn)
+    return recall
+
+def get_precision(tp, fp):
+    precision = tp/(tp+fp)
+    return precision
+
+
 
 # Helper funcs from geniml
 

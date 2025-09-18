@@ -44,7 +44,7 @@ def generate_narrowpeak_file(
 
     LAMBDA = 0.005
     MIN_PEAK_WIDTH = 10
-    MAX_PEAK_WIDTH = 1000
+    MAX_PEAK_WIDTH = 100
 
     try:
         with open(output_path, 'w') as f:
@@ -90,8 +90,8 @@ def generate_narrowpeak_file(
             
             if spike > 0:
                 for i in range(spike):
-                    peak_width = random.randint(10, 1000)
-                    chrom_start = random.randint(0, CHR1_LENGTH - peak_width)
+                    peak_width = random.randint(5, 40)
+                    chrom_start = random.randint(1000, 1100)
                     chrom_end = chrom_start + peak_width
 
                     name = "SPIKE"

@@ -2,5 +2,5 @@
 pipeline_name: uniwig_universe_assessment_parallel
 sample_interface:
   command_template: >
-    python3 pipeline/pipeline_parallel.py {looper.output_dir} {sample.sample_name} {sample.input_folder} {sample.file_list} {sample.chrom_sizes} {sample.gtars_path} {sample.coverage_folder} {sample.score} {sample.universe} {sample.cc_merge} {sample.cc_filter_size} {sample.cc_cutoff}
+    python3 pipeline/pipeline_parallel.py {looper.output_dir} {sample.sample_name} {sample.input_folder} {sample.file_list} {sample.chrom_sizes} {sample.gtars_path} {sample.coverage_folder} {sample.score} {sample.universe} {sample.cc_merge} {sample.cc_filter_size} {sample.cc_cutoff} {sample.hmm_normalize}
    

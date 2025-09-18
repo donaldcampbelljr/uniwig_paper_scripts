@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from utils import f_beta_score, get_rbs, get_rbs_from_assessment_file, get_f_10_score_from_assessment_file
+from utils import f_beta_score, get_rbs, get_rbs_from_assessment_file, get_f_10_score_from_assessment_file, get_recall, get_precision
 
 # WHICH GRAPHS DO YOU WANT TO PRODUCE
 GROUPED_BAR_GRAPH = False
@@ -11,8 +11,8 @@ BOX_PLOT = True
 MEAN_BAR_GRAPHS = True
 
 # Define the directory for results and the input data
-RESULTS_DIR = "/home/drc/Downloads/narrowpeakgeneration/experiment10/stats_figs/primary_stats/"
-DATA_DIR = "/home/drc/Downloads/narrowpeakgeneration/experiment10/stats_output/"
+RESULTS_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/UNIWIG_EXPERIMENTAL_RESULTS_RIVANNA_26Aug2025/stats_from_rivanna/atacseq500/FIGS_withRecall/"
+DATA_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/UNIWIG_EXPERIMENTAL_RESULTS_RIVANNA_26Aug2025/stats_from_rivanna/atacseq500/stats_output/"
 
 
 # Ensure the results directory exists
@@ -20,7 +20,7 @@ if not os.path.exists(RESULTS_DIR):
     os.makedirs(RESULTS_DIR)
 
 # Define the column names for the statistics you want to plot
-stats = ["median_dist_file_to_universe", 'univers/file', 'file/universe', 'universe&file', 'f10_beta_score', 'rbs']
+stats = ["median_dist_file_to_universe", 'univers/file', 'file/universe', 'universe&file', 'f10_beta_score', 'rbs', 'recall', 'precision']
 
 # List to hold all dataframes with names
 list_of_dfs_with_names = []
@@ -83,6 +83,17 @@ else:
     lambda row: get_rbs(row['median_dist_file_to_universe'], row['median_dist_universe_to_file']),
     axis=1
     )
+
+    df_combined['recall'] = df_combined.apply(
+    lambda row: get_recall(tp=row['universe&file'], fn=row['file/universe']),
+    axis=1
+    )
+
+    df_combined['precision'] = df_combined.apply(
+    lambda row: get_precision(tp=row['universe&file'], fp=row['univers/file']),
+    axis=1
+    )
+
 
     if GROUPED_BAR_GRAPH:
         print("Generating grouped bar graphs...")

@@ -1,3 +1,4 @@
 sample_name,input_folder,file_list
 experiment1,/home/drc/Downloads/narrowpeakgeneration/experiment1/input_files/,/home/drc/Downloads/narrowpeakgeneration/experiment1/narrowPeak_file_list.txt
 atacseq15,/home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15/,/home/drc/Downloads/GTARS_PAPER/sample_list/atac_seq_15_narrowPeak_file_list.txt
+synthetic,/home/drc/Downloads/GTARS_PAPER/sample_list/synthetic_17sep2025/,/home/drc/Downloads/GTARS_PAPER/sample_list/synthetic_file_list_18sep2025.txt

@@ -35,6 +35,7 @@ CC_CUTOFF = None
 CC_MERGE = sys.argv[10]
 CC_FILTER_SIZE = sys.argv[11]
 CC_CUTOFF = sys.argv[12]
+HMM_NORMALIZE = sys.argv[13]
 
 def parse_none_string(value):
     if value == "None":
@@ -44,6 +45,14 @@ def parse_none_string(value):
 CC_CUTOFF = parse_none_string(CC_CUTOFF)
 print(f"CC_CUTOFF: {CC_CUTOFF} and is type: {type(CC_CUTOFF)} ")
 
+HMM_NORMALIZE = sys.argv[13]
+
+def parse_normalize_string(value):
+    if value == "False":
+        return False
+    return True
+
+HMM_NORMALIZE = parse_normalize_string(HMM_NORMALIZE)
 
 # SET UP DIRECTORIES
 # UNIWIG, UNIVERSE, STATS, FIGURES, logs
@@ -157,6 +166,20 @@ elif UNIVERSE == "cc":
         geniml_cmd  = f"geniml build-universe {subcommand} --output-file {universe_target_file} --coverage-folder {COVERAGE_FOLDER} --merge {CC_MERGE} --filter-size {CC_FILTER_SIZE}"
 
     pm.run(geniml_cmd, universe_target_file)
+
+elif UNIVERSE == "hmm":
+    print(f"BUILDING {UNIVERSE} UNIVERSE")
+    subcommand = UNIVERSE
+    universe_target_file =  os.path.join(UNIVERSE_OUTPUT,f"{UNIVERSE}_{SCORE}_{sample_name}.bed")
+
+    if HMM_NORMALIZE:
+        geniml_cmd  = f"geniml build-universe {subcommand} --output-file {universe_target_file} --coverage-folder {COVERAGE_FOLDER}"
+    else:
+        print(f"HMM NORMALIZE is set to false: {HMM_NORMALIZE}")
+        geniml_cmd  = f"geniml build-universe {subcommand} --output-file {universe_target_file} --coverage-folder {COVERAGE_FOLDER} --not-normalize"
+
+    pm.run(geniml_cmd, universe_target_file)
+    
 
 elif UNIVERSE != "ml":
     # BUILD GENIML UNIVERSE CREATION CMD
