@@ -69,9 +69,9 @@ def generate_narrowpeak_file(
                 # the score is in the "super high" range (900-1000).
                 # Otherwise, it's in the standard range (0-900).
                 if random.random() < high_score_percentage:
-                    score = random.randint(900, 1000)
+                    score = random.randint(300, 500)
                 else:
-                    score = random.randint(0, 900)
+                    score = random.randint(0, 100)
 
                 # The rest of the narrowPeak columns are not required by the user,
                 # so they are set to placeholder values.
@@ -96,7 +96,7 @@ def generate_narrowpeak_file(
 
                     name = "SPIKE"
 
-                    score = random.randint(1200, 1400)
+                    score = random.randint(600, 800)
 
                     strand = "."
                     signal_value = 0
@@ -113,8 +113,47 @@ def generate_narrowpeak_file(
 
 
         print(f"Successfully generated {num_lines} random peaks and saved to '{output_path}'")
+        return output_path
     except IOError as e:
         print(f"Error: Could not write to file '{output_path}'. {e}", file=sys.stderr)
+
+
+# New function to handle the creation of multiple files and the list file
+def create_multiple_files(
+    num_files: int,
+    num_lines: int,
+    output_dir: str,
+    high_score_percentage: float,
+    spike: float
+):
+    """
+    Generates a specified number of narrowPeak files and writes their absolute paths
+    to a common file_list.txt.
+    """
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    list_file_path = os.path.abspath(os.path.join(output_dir, "file_list.txt"))
+
+    print(f"Creating {num_files} narrowPeak files...")
+    
+    with open(list_file_path, "w") as list_file:
+        for i in range(1, num_files + 1):
+            filename = f"random_peaks_{i}.narrowPeak"
+            
+            # Call the original function for each file
+            created_path = generate_narrowpeak_file(
+                num_lines=num_lines,
+                output_filename=filename,
+                output_dir=output_dir,
+                high_score_percentage=high_score_percentage,
+                spike=spike
+            )
+            
+            if created_path:
+                list_file.write(f"{created_path}\n")
+
+    print(f"\nAll file paths have been written to: {list_file_path}")
 
 
 if __name__ == "__main__":
@@ -123,6 +162,13 @@ if __name__ == "__main__":
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     
+    parser.add_argument(
+        "-f", "--num_files",
+        type=int,
+        default=1,
+        help="The number of narrowPeak files to generate."
+    )
+
     parser.add_argument(
         "-n", "--num_lines",
         type=int,
@@ -166,9 +212,9 @@ if __name__ == "__main__":
     #     print("Warning: Limiting the number of lines to the maximum of 1000.", file=sys.stderr)
     #     args.num_lines = 1000
 
-    generate_narrowpeak_file(
+    create_multiple_files(
+        num_files=args.num_files,
         num_lines=args.num_lines,
-        output_filename=args.output_file,
         output_dir=args.output_dir,
         high_score_percentage=args.high_score_percentage,
         spike=args.spike
