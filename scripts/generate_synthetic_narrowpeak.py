@@ -26,6 +26,7 @@ def generate_narrowpeak_file(
     # The length of chromosome 1 in the hg38 reference genome.
     # This value is used to ensure all start/end coordinates are valid.
     CHR1_LENGTH = 248956422
+    CHR1_LENGTH = 300000
     
     # Check if the high score percentage is within a valid range.
     if not 0.0 <= high_score_percentage <= 1.0:
@@ -43,8 +44,8 @@ def generate_narrowpeak_file(
     output_path = os.path.join(output_dir, output_filename)
 
     LAMBDA = 0.005
-    MIN_PEAK_WIDTH = 10
-    MAX_PEAK_WIDTH = 100
+    MIN_PEAK_WIDTH = 2
+    MAX_PEAK_WIDTH = 10
 
     try:
         with open(output_path, 'w') as f:
@@ -68,10 +69,10 @@ def generate_narrowpeak_file(
                 # If a random number is less than the specified percentage,
                 # the score is in the "super high" range (900-1000).
                 # Otherwise, it's in the standard range (0-900).
-                if random.random() < high_score_percentage:
-                    score = random.randint(300, 500)
-                else:
-                    score = random.randint(0, 100)
+                # if random.random() < high_score_percentage:
+                #     score = random.randint(300, 500)
+                # else:
+                score = random.randint(1, 50)
 
                 # The rest of the narrowPeak columns are not required by the user,
                 # so they are set to placeholder values.
@@ -90,13 +91,15 @@ def generate_narrowpeak_file(
             
             if spike > 0:
                 for i in range(spike):
-                    peak_width = random.randint(5, 40)
-                    chrom_start = random.randint(1000, 1100)
+                    #chrs = i*1000
+                    peak_width = random.randint(2, 10)
+                    #chrom_start = random.randint(chrs, chrs+100)
+                    chrom_start = random.randint(0, CHR1_LENGTH - peak_width)
                     chrom_end = chrom_start + peak_width
 
                     name = "SPIKE"
 
-                    score = random.randint(600, 800)
+                    score = random.randint(800, 999)
 
                     strand = "."
                     signal_value = 0

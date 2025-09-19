@@ -11,8 +11,8 @@ BOX_PLOT = True
 MEAN_BAR_GRAPHS = True
 
 # Define the directory for results and the input data
-RESULTS_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/UNIWIG_EXPERIMENTAL_RESULTS_RIVANNA_26Aug2025/stats_from_rivanna/atacseq500/FIGS_withRecall/"
-DATA_DIR = "/home/drc/Downloads/GTARS_PAPER/PROCESSED/UNIWIG_EXPERIMENTAL_RESULTS_RIVANNA_26Aug2025/stats_from_rivanna/atacseq500/stats_output/"
+RESULTS_DIR = "/home/drc/Downloads/narrowpeakgeneration/experiment14/FIGS/"
+DATA_DIR = "/home/drc/Downloads/narrowpeakgeneration/experiment14/stats_output/"
 
 
 # Ensure the results directory exists
