@@ -16,3 +16,21 @@ Initial results are located on HPC for 3 different sets of files:
 
 For 1, there are many more files that could be used for this work; I did a random sampling of 500 files to keep output sizes low for proof of concept experimentation.
 
+## Example running these pipelines
+
+### ATACSEQ 500 27aug2025
+
+`export RESULTS=/project/shefflab/brickyard/results_pipeline/gtars_uniwig/experiment_ATACseq_500`
+
+`export CHROMSIZESPATH=/home/zzz3fh/files_for_gtars_uniwig/hg38.chrom.sizes`
+
+`export GTARSPATH=/home/zzz3fh/code/gtars/gtars/target/release/gtars`
+
+#### Create bigwig files
+`looper run -c .looper_uniwig.yaml --package slurm --compute PARTITION=standard time='01-00:00:00' cores='12' mem='64000' -k 2 -d`
+
+#### Create universes using the above bigwig files
+`looper run -c .looper_parallel_universe.yaml --package slurm --compute PARTITION=standard time='01-00:00:00' cores='12' mem='64000' -k 16 -d`
+
+Once these two pipelines are finished, you can take the `stats.py` script and point it to the `stats_output` directory to create figures:
+`/project/shefflab/brickyard/results_pipeline/gtars_uniwig/experiment_ATACseq_500/stats_output`
